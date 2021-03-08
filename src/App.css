@@ -1,0 +1,10 @@
+.background{
+    background-image: url("../src/fondo.jfif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:100vh;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
