@@ -1,11 +1,26 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import NewTodo from './NewTodo';
 import ToDoList from "./ToDoList";
+
+import firebaseSDK from "../../../FirebaseInit";
 function ToDo(){
     const [todoData, setTodoData]=useState({
         todos:[],
         newTodo:"",
     });
+    useEffect(
+        ()=>{
+          const todosRef = firebaseSDK.database().ref('todos').orderByKey().limitToLast(100);
+          todosRef.on('child_added', snapshot => {
+            let newTodo = { ...snapshot.val(), fb_id: snapshot.key };
+            let newTodos = todoData.todos;
+            newTodos.push(newTodo);
+            setTodoData({...todoData, todos: newTodos});
+          })
+        },
+        []
+      );
+    
 
     const onChange =(e) =>{
         const {name,value}= e.currentTarget;
@@ -18,6 +33,7 @@ function ToDo(){
             completed:false,
             id:new Date().getTime()
         };
+        firebaseSDK.database().ref()
         let newTodos = todoData.todos;
         newTodos.push(newToo);
 
